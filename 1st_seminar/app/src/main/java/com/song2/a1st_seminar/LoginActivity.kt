@@ -28,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
                 v.setBackgroundResource(R.drawable.primary_border)
         }
 
-        /*btn_login_submit.setOnClickListener {
+/*        btn_login_submit.setOnClickListener {
 
             if(edt_login_id.text.toString()==""){
                 //아무것도 입력받지 않은 상태는 공백임!
