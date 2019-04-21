@@ -44,8 +44,11 @@ class LoginActivity : AppCompatActivity() {
                 et_login_id.setBackgroundResource(R.drawable.gray_border)
             }
             else{
-                startActivity<MainActivity>()
-                finish()
+                if( isVaild(et_login_id.text.toString(), et_login_pw.text.toString()) == true){
+                    postLoginResponse(et_login_id.text.toString(), et_login_pw.text.toString())
+
+                    finish()
+                }
             }
 
         }
@@ -71,6 +74,20 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+    }
 
+    fun isVaild(u_id:String, u_pw:String):Boolean{
+
+        if ( u_id !="" && u_pw !="" )
+            return true
+        else
+            return false
+    }
+
+    fun postLoginResponse(u_id:String, u_pw: String){
+
+        val intent = Intent()
+        intent.putExtra("userID",u_id)
+        setResult(Activity.RESULT_OK, intent)
     }
 }
