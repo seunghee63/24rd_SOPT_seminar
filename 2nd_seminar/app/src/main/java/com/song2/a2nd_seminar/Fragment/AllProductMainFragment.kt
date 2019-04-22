@@ -15,6 +15,7 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 /**
+ *
  * A simple [Fragment] subclass.
  *
  */
@@ -25,7 +26,7 @@ class AllProductMainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_all_product_main2, container, false)
+        return inflater.inflate(R.layout.fragment_all_product_main, container, false)
     }
 
 

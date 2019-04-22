@@ -15,10 +15,9 @@ import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
 
     val REQUEST_CODE_MAIN_ACTIVITY = 2000
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,8 +70,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-/*
-    private fun configurateMainTab(){
+
+/*    private fun configureMainTab(){
         vp_main_product.adapter = ProductMainPagerAdapter(supportFragmentManager,3)
         vp_main_product.offscreenPageLimit = 2
         tl_main_category.setupWithViewPager(vp_main_product)
@@ -83,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         tl_main_category.getTabAt(0)!!.customView = navCategoryMainLayout.findViewById(R.id.rl_nav_category_main_all) as RelativeLayout
         tl_main_category.getTabAt(1)!!.customView = navCategoryMainLayout.findViewById(R.id.rl_nav_category_main_new) as RelativeLayout
         tl_main_category.getTabAt(2)!!.customView = navCategoryMainLayout.findViewById(R.id.rl_nav_category_main_end) as RelativeLayout
-    }
-*/
+    }*/
+
 
 }
