@@ -4,8 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.song2.a2nd_seminar.db.SharedPreferenceController
 import kotlinx.android.synthetic.main.activity_login.*
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 import java.text.SimpleDateFormat
@@ -85,6 +85,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun postLoginResponse(u_id:String, u_pw: String){
+
+        SharedPreferenceController.setUserID(this,u_id)
 
         val intent = Intent()
         intent.putExtra("userID",u_id)
