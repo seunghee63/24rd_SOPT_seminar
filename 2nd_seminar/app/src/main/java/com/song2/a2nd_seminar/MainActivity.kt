@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        configureMainTab()
+
         txt_toolbar_main_action.setOnClickListener {
             if(SharedPreferenceController.getUserID(this).isEmpty()){
                 startActivity<LoginActivity>()
@@ -71,18 +73,19 @@ class MainActivity : AppCompatActivity(){
     }
 
 
-/*    private fun configureMainTab(){
-        vp_main_product.adapter = ProductMainPagerAdapter(supportFragmentManager,3)
+    private fun configureMainTab(){
+        vp_main_product.adapter = ProductMainPagerAdapter(supportFragmentManager, 3)
         vp_main_product.offscreenPageLimit = 2
+
         tl_main_category.setupWithViewPager(vp_main_product)
 
-        val navCategoryMainLayout : View = (this.getSystemService(android.content.Context.LAYOUT_INFLATER_SERVICE)as LayoutInflater)
+        val navCategoryMainLayout : View = (this.getSystemService(android.content.Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
             .inflate(R.layout.navigation_category_main, null, false)
-
         tl_main_category.getTabAt(0)!!.customView = navCategoryMainLayout.findViewById(R.id.rl_nav_category_main_all) as RelativeLayout
         tl_main_category.getTabAt(1)!!.customView = navCategoryMainLayout.findViewById(R.id.rl_nav_category_main_new) as RelativeLayout
         tl_main_category.getTabAt(2)!!.customView = navCategoryMainLayout.findViewById(R.id.rl_nav_category_main_end) as RelativeLayout
-    }*/
+
+    }
 
 
 }
