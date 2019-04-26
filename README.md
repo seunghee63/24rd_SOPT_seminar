@@ -87,54 +87,57 @@ line 4)  그렇지 않으면 primary_border style로
 
 ##### 1.2 startActivityForResult() -> getExtra()/setResult()/finish() -> onActivityResult()
 
-LoginActivity.lk
-val REQUEST_CODE_LOGIN_ACTIVITY = 1000
+LoginActivity.kt
 
-tv_login_signup.setOnClickListener {
+	val REQUEST_CODE_LOGIN_ACTIVITY = 1000
 
-    val simpleDateFormat = SimpleDateFormat("dd/M/yy hh:mm:ss")
-    val s_time = simpleDateFormat.format(Date())
+	tv_login_signup.setOnClickListener {
+
+	    val simpleDateFormat = SimpleDateFormat("dd/M/yy hh:mm:ss")
+	    val s_time = simpleDateFormat.format(Date())
 
 
-    startActivityForResult<SignupActivity>(REQUEST_CODE_LOGIN_ACTIVITY, "start_time" to s_time)
-}
+	    startActivityForResult<SignupActivity>(REQUEST_CODE_LOGIN_ACTIVITY, "start_time" to s_time)
+	}
  
 startActivityForResult<전환 창>(요청고유번호, SubActivity에 보내고 싶은 데이터명칭 to 데이터벨류)
 
 SignupActivity.kt
-fun postSignupResponse(u_id:String, u_pw: String, u_name: String){
 
-    val simpleDateFormat = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
-    val e_time = simpleDateFormat.format(Date())
+	fun postSignupResponse(u_id:String, u_pw: String, u_name: String){
 
-    val intent = Intent()
-    intent.putExtra("end_time",e_time)
-    setResult(Activity.RESULT_OK, intent)
+	    val simpleDateFormat = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+	    val e_time = simpleDateFormat.format(Date())
 
-    finish()
-}
+	    val intent = Intent()
+	    intent.putExtra("end_time",e_time)
+	    setResult(Activity.RESULT_OK, intent)
+
+	    finish()
+	}
 
 intent.putExtra
 setResult
 
 LoginActivity.kt
-override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    super.onActivityResult(requestCode, resultCode, data)
 
-    if(requestCode == REQUEST_CODE_LOGIN_ACTIVITY){
-        if(resultCode == Activity.RESULT_OK) {
-            val e_time = data!!.getStringExtra("end_time")
+	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+	    super.onActivityResult(requestCode, resultCode, data)
 
-            toast("End time: ${e_time}")
-        }
-    }
-}
+	    if(requestCode == REQUEST_CODE_LOGIN_ACTIVITY){
+		if(resultCode == Activity.RESULT_OK) {
+		    val e_time = data!!.getStringExtra("end_time")
+
+		    toast("End time: ${e_time}")
+		}
+	    }
+	}
 onActivityResult(요청고유번호, 작업처리 결과(RESULT_OK), 부모Activity에 전달하고자 하는 data)
 
 #### 2. 어플리케이션 내부 DB
 
 ##### 2.1 Toolbar적용하기
-<include/>태그의 layout를 이용하여 외부 layout파일을 불러 올 수 있음!
+'include' 태그의 layout를 이용하여 외부 layout파일을 불러 올 수 있음!
 
 ##### 2.2 내부DB
 *Shared Preference
@@ -145,79 +148,85 @@ onActivityResult(요청고유번호, 작업처리 결과(RESULT_OK), 부모Activ
 *SQLite
 
 ##### 2.3 Shared Preference 구현 방법
-	1) db>SharedPreferenceController.kt (파일 생성시, 반드시 종류는 Object로!)
-	2) SharedPreferenceController.setUserID(this,i_id) 로 메소드 접근
-	3) SharedPreferenceController.kt 에 setUserID메소드 생성
+ 1) db>SharedPreferenceController.kt (파일 생성시, 반드시 종류는 Object로!)
+ 2) SharedPreferenceController.setUserID(this,i_id) 로 메소드 접근
+ 3) SharedPreferenceController.kt 에 setUserID메소드 생성
 
 *자동로그인 구현하기*
+
 **1-setUserID 메소드로 DB에 아이디 등록**
+
 SharedPreferenceController.kt
-val MY_ACCOUNT = "unique_string"
 
-fun setUserID(ctx: Context, time:String){
-    val preference : SharedPreferences = ctx.getSharedPreferences(MY_ACCOUNT, Context.MODE_PRIVATE)
-    val editor : SharedPreferences.Editor = preference.edit()
+	val MY_ACCOUNT = "unique_string"
 
-    editor.putString("u_id",time)
-    editor.commit()
-}
+	fun setUserID(ctx: Context, time:String){
+	    val preference : SharedPreferences = ctx.getSharedPreferences(MY_ACCOUNT, Context.MODE_PRIVATE)
+	    val editor : SharedPreferences.Editor = preference.edit()
+
+	    editor.putString("u_id",time)
+	    editor.commit()
+	}
 
  ctx.getSharedPreferences(MY_ACCOUNT, Context.MODE_PRIVATE//해당 어플리케이션이 아니면 접근 불가능)
 
 **2-getUserDB 메소드로 DB에 아이디가 있는지 확인**
+
 MainActivity.kt
-//로그인or로그아웃 버튼이 눌렸을 때, 수행 해야 할 내용 결정
-txt_toolbar_main_action.setOnClickListener {
-    if(SharedPreferenceController.getUserID(this).isEmpty()){
-	//db에 저장된 값이 없다면 (로그아웃 상태 라면)
-        startActivity<LoginActivity>()
-    }
-    else{ //로그인 상태 라면
-        SharedPreferenceController.clearUserID(this)
-        configureTitleBar()
-    }
-}
 
-//액티비티가 최상단에 띄어 질 때 마다 호출
-override fun onResume() {
-    super.onResume()
-    configureTitleBar()
-}
+	//로그인or로그아웃 버튼이 눌렸을 때, 수행 해야 할 내용 결정
+	txt_toolbar_main_action.setOnClickListener {
+	    if(SharedPreferenceController.getUserID(this).isEmpty()){
+		//db에 저장된 값이 없다면 (로그아웃 상태 라면)
+		startActivity<LoginActivity>()
+	    }
+	    else{ //로그인 상태 라면
+		SharedPreferenceController.clearUserID(this)
+		configureTitleBar()
+	    }
+	}
 
-private fun configureTitleBar(){
-    if(SharedPreferenceController.getUserID(this).isEmpty()){
-        txt_toolbar_main_action.text = "로그인"
-    }
-    else{
-        txt_toolbar_main_action.text = "로그아웃"
-    }
-}
+	//액티비티가 최상단에 띄어 질 때 마다 호출
+	override fun onResume() {
+	    super.onResume()
+	    configureTitleBar()
+	}
+
+	private fun configureTitleBar(){
+	    if(SharedPreferenceController.getUserID(this).isEmpty()){
+		txt_toolbar_main_action.text = "로그인"
+	    }
+	    else{
+		txt_toolbar_main_action.text = "로그아웃"
+	    }
+	}
 
 SharedPreferenceController.kt
-fun getUserID(ctx : Context):String{
-    val preferences:SharedPreferences = ctx.getSharedPreferences(MY_ACCOUNT, Context.MODE_PRIVATE)
-    return preferences.getString("u_id","")
-}
+
+	fun getUserID(ctx : Context):String{
+		val preferences:SharedPreferences = ctx.getSharedPreferences(MY_ACCOUNT, Context.MODE_PRIVATE)
+		return preferences.getString("u_id","")
+	}
 
 **3-clearUserID 메소드로 db에 있는 내용 모두 삭제**
 
-txt_toolbar_main_action.setOnClickListener {
-    if(SharedPreferenceController.getUserID(this).isEmpty()){
-	//db에 저장된 값이 없다면 (로그아웃 상태 라면)
-        startActivity<LoginActivity>()
-    }
-    else{ //로그인 상태 라면
-        SharedPreferenceController.clearUserID(this)
-        configureTitleBar()
-    }
-}
+	txt_toolbar_main_action.setOnClickListener {
+	    if(SharedPreferenceController.getUserID(this).isEmpty()){
+		//db에 저장된 값이 없다면 (로그아웃 상태 라면)
+		startActivity<LoginActivity>()
+	    }
+	    else{ //로그인 상태 라면
+		SharedPreferenceController.clearUserID(this)
+		configureTitleBar()
+	    }
+	}
 
-fun clearUserID(ctx : Context){
-    val preferences : SharedPreferences = ctx.getSharedPreferences(MY_ACCOUNT,Context.MODE_PRIVATE)
-    val editor :SharedPreferences.Editor = preferences.edit()
-    editor.clear()
-    editor.commit()
-}
+	fun clearUserID(ctx : Context){
+	    val preferences : SharedPreferences = ctx.getSharedPreferences(MY_ACCOUNT,Context.MODE_PRIVATE)
+	    val editor :SharedPreferences.Editor = preferences.edit()
+	    editor.clear()
+	    editor.commit()
+	}
 editor.clear() 는 db의 모든 내용이 지워짐!!!
 
 
@@ -227,7 +236,7 @@ editor.clear() 는 db의 모든 내용이 지워짐!!!
 - 한개의 Activity에서 여러개의 UI를 보기 위함
 - 재사용 가능한 부분 Activity
 
-*Fragment의 생명주기
+##### 3.2 Fragment의 생명주기
 - 상위 Activity의 생명주기에 영향을 받음
 - Fragment위에 다른 Fragment 올라갈 수 있음
 - Activity간에는 intent로 데이터를 전달하지만, Fagment간에는 Bundle로 데이터 전달
@@ -247,51 +256,56 @@ editor.clear() 는 db의 모든 내용이 지워짐!!!
 	4) ViewPager와 FragmentStatePagerAdapter연결
 
 **1-ViewPager와 TabLayout 레이아웃 구성**
-*TabLayout은 반드시 TabLayout이 아니라,
-android.support.design.widget.TabLayout 태그 이용할 것 !
-*design library등록!
+
+- TabLayout은 반드시 TabLayout이 아니라, android.support.design.widget.TabLayout 태그 이용할 것 !
+- design library등록!
 
 **2-TabLayout과 ViewPager연결**
+
 :TabLayout을 클릭하면, ViewPager에서 보이는 Fragment를 변화시킬 것 이라는 뜻!
 
 
 **3-FragmentStatePagerAdapter생성**
+
 :첫번째 Fragment는 AllProductFragment, 두번째 Fragment는 NewProductFragment…로 지정 한다는 뜻!
+
 adapter>FragmentMainPagerAdapter.kt
 
-class ProductMainPagerAdapter(fm: FragmentManager?, private val fragment_num : Int): FragmentStatePagerAdapter(fm) {
+	class ProductMainPagerAdapter(fm: FragmentManager?, private val fragment_num : Int): FragmentStatePagerAdapter(fm) {
 
-    override fun getItem(p0: Int): Fragment? { //?는 널값을 리턴하기도한다는 뜻
-        return when (p0){ //반환 프래그먼트 정해 줌
-            0->AllProductMainFragment()
-            1->NewProductMainFragment()
-            2->EndProductMainFragment()
+	    override fun getItem(p0: Int): Fragment? { //?는 널값을 리턴하기도한다는 뜻
+		return when (p0){ //반환 프래그먼트 정해 줌
+		    0->AllProductMainFragment()
+		    1->NewProductMainFragment()
+		    2->EndProductMainFragment()
 
-            else -> null
-        }
-    }
+		    else -> null
+		}
+	    }
 
-    override fun getCount(): Int {
-        return fragment_num
-    }
-}
+	    override fun getCount(): Int {
+		return fragment_num
+	    }
+	}
 
 **4-ViewPager와 FragmentStatePagerAdapter연결**
+
+
 MainActivity.kt
 
-private fun configureMainTab(){
-    vp_main_product.adapter = ProductMainPagerAdapter(supportFragmentManager, 3)
-	//ViewPager와 FragmentStatePagerAdapter 연결. viewpager는 adapter가 요구됨! 
-    vp_main_product.offscreenPageLimit = 2
-    tl_main_category.setupWithViewPager(vp_main_product)
-	//TabLayout과 ViewPager연결.
+	private fun configureMainTab(){
+	    vp_main_product.adapter = ProductMainPagerAdapter(supportFragmentManager, 3)
+		//ViewPager와 FragmentStatePagerAdapter 연결. viewpager는 adapter가 요구됨! 
+	    vp_main_product.offscreenPageLimit = 2
+	    tl_main_category.setupWithViewPager(vp_main_product)
+		//TabLayout과 ViewPager연결.
 
-	//TabLayout과 navigation_category_main.xml연결
-    val navCategoryMainLayout : View = (this.getSystemService(android.content.Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
-        .inflate(R.layout.navigation_category_main, null, false)
-    tl_main_category.getTabAt(0)!!.customView = navCategoryMainLayout.findViewById(R.id.rl_nav_category_main_all) as RelativeLayout
-    tl_main_category.getTabAt(1)!!.customView = navCategoryMainLayout.findViewById(R.id.rl_nav_category_main_new) as RelativeLayout
-    tl_main_category.getTabAt(2)!!.customView = navCategoryMainLayout.findViewById(R.id.rl_nav_category_main_end) as RelativeLayout
+		//TabLayout과 navigation_category_main.xml연결
+	    val navCategoryMainLayout : View = (this.getSystemService(android.content.Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
+		.inflate(R.layout.navigation_category_main, null, false)
+	    tl_main_category.getTabAt(0)!!.customView = navCategoryMainLayout.findViewById(R.id.rl_nav_category_main_all) as RelativeLayout
+	    tl_main_category.getTabAt(1)!!.customView = navCategoryMainLayout.findViewById(R.id.rl_nav_category_main_new) as RelativeLayout
+	    tl_main_category.getTabAt(2)!!.customView = navCategoryMainLayout.findViewById(R.id.rl_nav_category_main_end) as RelativeLayout
 
-}
+	}
 
