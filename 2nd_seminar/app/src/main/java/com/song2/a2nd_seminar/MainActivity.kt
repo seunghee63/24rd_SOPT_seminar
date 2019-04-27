@@ -2,12 +2,15 @@ package com.song2.a2nd_seminar
 
 import android.app.Activity
 import android.content.Intent
+import android.media.Image
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import com.song2.a2nd_seminar.adapter.ProductMainPagerAdapter
+import com.song2.a2nd_seminar.adapter.SliderMainPagerAdapter
 import com.song2.a2nd_seminar.db.SharedPreferenceController
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar_main.*
@@ -85,6 +88,17 @@ class MainActivity : AppCompatActivity(){
         tl_main_category.getTabAt(1)!!.customView = navCategoryMainLayout.findViewById(R.id.rl_nav_category_main_new) as RelativeLayout
         tl_main_category.getTabAt(2)!!.customView = navCategoryMainLayout.findViewById(R.id.rl_nav_category_main_end) as RelativeLayout
 
+
+        vp_main_slider.adapter = SliderMainPagerAdapter(supportFragmentManager,3)
+        vp_main_slider.offscreenPageLimit = 2
+
+        tl_main_indicator.setupWithViewPager(vp_main_slider)
+
+        val navIndicatorMainLayout : View = (this.getSystemService(android.content.Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
+            .inflate(R.layout.navigation_main_indicator, null, false)
+        tl_main_indicator.getTabAt(0)!!.customView = navIndicatorMainLayout.findViewById(R.id.img_nav_indicator_main_1) as ImageView
+        tl_main_indicator.getTabAt(0)!!.customView = navIndicatorMainLayout.findViewById(R.id.img_nav_indicator_main_2) as ImageView
+        tl_main_indicator.getTabAt(0)!!.customView = navIndicatorMainLayout.findViewById(R.id.img_nav_indicator_main_3) as ImageView
     }
 
 
