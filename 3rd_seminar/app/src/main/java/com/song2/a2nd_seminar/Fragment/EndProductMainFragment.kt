@@ -67,8 +67,8 @@ class EndProductMainFragment : Fragment() {
 
 
         productOverviewRecyclerViewAdapter = ProductOverviewRecyclerViewAdapter(context!!,dataList)
-        rv_item_product_overview_end.adapter = productOverviewRecyclerViewAdapter
-        rv_item_product_overview_end.layoutManager = GridLayoutManager(context!!, 3)
+        rv_product_overview_end.adapter = productOverviewRecyclerViewAdapter
+        rv_product_overview_end.layoutManager = GridLayoutManager(context!!, 3)
     }
 
 

@@ -89,7 +89,7 @@ class AllProductMainFragment : Fragment() {
             15, "신규작품 8", 1, "신규작가 H"))
 
         productOverviewRecyclerViewAdapter = ProductOverviewRecyclerViewAdapter(context!!,dataList)
-        rv_item_product_overview_all.adapter = productOverviewRecyclerViewAdapter
-        rv_item_product_overview_all.layoutManager = GridLayoutManager(context!!, 3)
+        rv_product_overview_all.adapter = productOverviewRecyclerViewAdapter
+        rv_product_overview_all.layoutManager = GridLayoutManager(context!!, 3)
     }
 }

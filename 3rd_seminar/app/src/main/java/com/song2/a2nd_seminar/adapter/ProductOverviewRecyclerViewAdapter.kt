@@ -7,10 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.song2.a2nd_seminar.Data.ProductOverviewData
+import com.song2.a2nd_seminar.ProductActivity
 import com.song2.a2nd_seminar.R
+import org.jetbrains.anko.startActivity
 
 class ProductOverviewRecyclerViewAdapter(val ctx: Context, val dataList : ArrayList<ProductOverviewData>) : RecyclerView.Adapter<ProductOverviewRecyclerViewAdapter.Holder>(){
 
@@ -28,9 +31,17 @@ class ProductOverviewRecyclerViewAdapter(val ctx: Context, val dataList : ArrayL
         holder.num_like.text = "♥" + dataList[position].num_like.toString()
         holder.author.text = dataList[position].author
 
+        holder.container.setOnClickListener{
+            ctx.startActivity<ProductActivity>(
+                "product_id" to dataList[position].product_id,
+                "title" to dataList[position].title
+            )
+        }
+
     }
 
     inner class Holder(itemView: View):RecyclerView.ViewHolder(itemView){
+        var container = itemView.findViewById(R.id.ll_rv_item_product_overview_container) as LinearLayout
         var img_thumbnail = itemView.findViewById(R.id.img_rv_item_product_overview_thumbnail) as ImageView
         var title = itemView.findViewById(R.id.txt_rv_item_product_overview_title)as TextView
         var num_like = itemView.findViewById(R.id.txt_rv_item_product_overview_numlike) as TextView

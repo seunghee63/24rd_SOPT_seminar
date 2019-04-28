@@ -81,8 +81,8 @@ class NewProductMainFragment : Fragment() {
         )
 
         productOverviewRecyclerViewAdapter = ProductOverviewRecyclerViewAdapter(context!!,dataList)
-        rv_item_product_overview_new.adapter = productOverviewRecyclerViewAdapter
-        rv_item_product_overview_new.layoutManager = GridLayoutManager(context!!, 3)
+        rv_product_overview_new.adapter = productOverviewRecyclerViewAdapter
+        rv_product_overview_new.layoutManager = GridLayoutManager(context!!, 3)
     }
 
 

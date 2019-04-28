@@ -6,7 +6,7 @@
             android:drawable="@drawable/like_empty"/>
 
     <item
-        android:state_selected="false"
+        android:state_selected="true"
         android:drawable="@drawable/like_fill"/>
 
 </selector>
