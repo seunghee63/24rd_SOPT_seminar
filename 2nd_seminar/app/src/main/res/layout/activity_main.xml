@@ -39,15 +39,15 @@
         <android.support.v4.view.ViewPager
                 android:id="@+id/vp_main_slider"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
+                android:layout_height="match_parent"/>
             <android.support.design.widget.TabLayout
-
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
                     android:id="@+id/tl_main_indicator"
                     app:tabIndicatorHeight="0dp"
+                    app:tabGravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
-        </android.support.v4.view.ViewPager>
     </RelativeLayout>
 
     <!-- Default TabLayout X -->

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.media.Image
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -47,6 +48,8 @@ class MainActivity : AppCompatActivity(){
         btnMainClose.setOnClickListener {
             finish()
         }
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -97,8 +100,21 @@ class MainActivity : AppCompatActivity(){
         val navIndicatorMainLayout : View = (this.getSystemService(android.content.Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
             .inflate(R.layout.navigation_main_indicator, null, false)
         tl_main_indicator.getTabAt(0)!!.customView = navIndicatorMainLayout.findViewById(R.id.img_nav_indicator_main_1) as ImageView
-        tl_main_indicator.getTabAt(0)!!.customView = navIndicatorMainLayout.findViewById(R.id.img_nav_indicator_main_2) as ImageView
-        tl_main_indicator.getTabAt(0)!!.customView = navIndicatorMainLayout.findViewById(R.id.img_nav_indicator_main_3) as ImageView
+        tl_main_indicator.getTabAt(1)!!.customView = navIndicatorMainLayout.findViewById(R.id.img_nav_indicator_main_2) as ImageView
+        tl_main_indicator.getTabAt(2)!!.customView = navIndicatorMainLayout.findViewById(R.id.img_nav_indicator_main_3) as ImageView
+
+        tl_main_indicator.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(p0: TabLayout.Tab?) {
+            }
+
+            override fun onTabUnselected(p0: TabLayout.Tab?) {
+                p0!!.customView!!.setBackgroundColor(resources.getColor(R.color.colorPrimaryGray))
+            }
+
+            override fun onTabSelected(p0: TabLayout.Tab?) {
+                p0!!.customView!!.setBackgroundColor(resources.getColor(R.color.colorPrimaryYellow))
+            }
+        })
     }
 
 
