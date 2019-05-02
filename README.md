@@ -1,9 +1,9 @@
 # 24rd_SOPT_seminar
-[TOC]
 
+[TOC]
 # 1주차
 
-#### 1. 안드로이드
+## 1. 안드로이드
 ##### **1.1 프로젝트 구조**
 - Menifest : 앱에 대한 정보 ex) 앱 이름, 시작 액티비티...
 
@@ -22,7 +22,7 @@ gradle>dependency
 1) Project Structure>app>dependency>library dependency
 2) 직접입력
 
-#### 2. Activity와 intent
+## 2. Activity와 intent
 ##### 2.1 **Activity란**
 ##### 2.2 **Activity 생명주기**
 ##### 2.3 **Activity 전환**
@@ -35,7 +35,7 @@ line 1)  intent의 매개변수(현재 액티비티, 전환 액티비티)
 line 2)  보낼때는 자료형에 상관 없이 **putExtra** (단, 받을때는 자료형에 맞는 메소드를 사용해야 함.)
 
 
-#### 3. Layout UI 구성하기
+## 3. Layout UI 구성하기
 ##### 3.1 **View와 ViewGroup**
 ##### 3.2 **Attribute**
 ###### padding vs margin
@@ -61,7 +61,7 @@ color태그의 name속성에는 값(대명사), 태그 안에는 색상 코드�
 res/style.xml
 style태그의 parent속성을 "Theme.AppCompat.Light.NoActionBar"
 
-#### 4. 이벤트 핸들링
+## 4. 이벤트 핸들링
 ##### 4.1 **OnFocusChangeListener**
 View에 Focus가 잡혔을때 이벤트 처리
 
@@ -80,7 +80,7 @@ line 4)  그렇지 않으면 primary_border style로
 
 # 2주차
 
-#### 1. 반환 값이 있는 Activity
+## 1. 반환 값이 있는 Activity
 ￼
 ##### 1.1 startActicity()/finish() -> getExtra()
 ##### 	   putExtra()
@@ -134,7 +134,7 @@ LoginActivity.kt
 	}
 onActivityResult(요청고유번호, 작업처리 결과(RESULT_OK), 부모Activity에 전달하고자 하는 data)
 
-#### 2. 어플리케이션 내부 DB
+## 2. 어플리케이션 내부 DB
 
 ##### 2.1 Toolbar적용하기
 'include' 태그의 layout를 이용하여 외부 layout파일을 불러 올 수 있음!
@@ -230,7 +230,7 @@ SharedPreferenceController.kt
 editor.clear() 는 db의 모든 내용이 지워짐!!!
 
 
-#### 3. Fragment
+## 3. Fragment
 ##### 3.1 프래그먼트란?
 - 하나의 액티비티가 여러버전의 화면을 가질 수 있음 ex. 모바일환경에서와 태플릿환경에서의 UI
 - 한개의 Activity에서 여러개의 UI를 보기 위함
@@ -243,7 +243,7 @@ editor.clear() 는 db의 모든 내용이 지워짐!!!
 - View가 완전히 생성 된 후, 호출되는 Fragment의 생명주기 : onActivityCreated()
 ￼
 
-#### 4. FragmentStatePager
+## 4. FragmentStatePager
 
 ##### 4.1 언제 FragmentStatePager를 사용 할 까?
 - TabLayout과 함께 사용하여 실용적인 레이아웃 구성!
@@ -309,3 +309,10 @@ MainActivity.kt
 
 	}
 
+# 3차 세미나
+
+## 1. 셀렉터
+
+## 2. Glide 라이브러리
+
+## 3. RecyclerView
