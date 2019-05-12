@@ -1,9 +1,27 @@
 # 24rd_SOPT_seminar
 
-[TOC]
-# 1주차
+- [24rd_SOPT_seminar](#24rd-sopt-seminar)
+- [1stWeek](#1stweek)
+  * [1. Android](#1-android)
+  * [2. Activity](#2-activity)
+  * [3. Layout UI](#3-layout-ui)
+  * [4. Event Handling](#4-event-handling)
+  
+- [2ndWeek](#2ndweek)
+  * [1. Activities with return values](#1-activities-with-return-values)
+  * [2. application local DB](#2-application-local-db)
+  * [3. Fragment](#3-fragment)
+  * [4. FragmentStatePager](#4-fragmentstatepager)
+  
+- [3rdWeek](#3rdweek)
+  * [1. selector](#1-selector)
+  * [2. Glide library](#2-glide-library)
+  * [3. RecyclerView](#3-recyclerview)
+  
+  
+# 1stWeek
 
-## 1. 안드로이드
+## 1. Android
 **1.1 프로젝트 구조**
 - Menifest : 앱에 대한 정보 ex) 앱 이름, 시작 액티비티...
 
@@ -22,7 +40,7 @@ gradle>dependency
 1) Project Structure>app>dependency>library dependency
 2) 직접입력
 
-## 2. Activity와 intent
+## 2. Activity
 **2.1 Activity란**
 
 **2.2 Activity 생명주기**
@@ -38,7 +56,7 @@ line 1)  intent의 매개변수(현재 액티비티, 전환 액티비티)
 line 2)  보낼때는 자료형에 상관 없이 **putExtra** (단, 받을때는 자료형에 맞는 메소드를 사용해야 함.)
 
 
-## 3. Layout UI 구성하기
+## 3. Layout UI
 **3.1 View와 ViewGroup**
 
 **3.2 Attribute**
@@ -68,7 +86,7 @@ color태그의 name속성에는 값(대명사), 태그 안에는 색상 코드�
 res/style.xml
 style태그의 parent속성을 "Theme.AppCompat.Light.NoActionBar"
 
-## 4. 이벤트 핸들링
+## 4. Event Handling
 **4.1 OnFocusChangeListener**
 
 View에 Focus가 잡혔을때 이벤트 처리
@@ -86,9 +104,9 @@ line 2)  활성화가 되면 테두리가 primary_border_gray style로,
 line 4)  그렇지 않으면 primary_border style로
 
 
-# 2주차
+# 2ndWeek
 
-## 1. 반환 값이 있는 Activity
+## 1. Activities with return values
 ￼
 **1.1 startActicity()/finish() -> getExtra()**
 
@@ -143,12 +161,12 @@ LoginActivity.kt
 	}
 onActivityResult(요청고유번호, 작업처리 결과(RESULT_OK), 부모Activity에 전달하고자 하는 data)
 
-## 2. 어플리케이션 내부 DB
+## 2. application local DB
 
-**2.1 Toolbar적용하기**
+**2.1 Toolbar**
 'include' 태그의 layout를 이용하여 외부 layout파일을 불러 올 수 있음!
 
-**2.2 내부DB**
+**2.2 local DB**
 
 *Shared Preference
 - Key:Value쌍으로 데이터 저장
@@ -157,7 +175,7 @@ onActivityResult(요청고유번호, 작업처리 결과(RESULT_OK), 부모Activ
 
 *SQLite
 
-**2.3 Shared Preference 구현 방법**
+**2.3 Shared Preference**
 
  1) db>SharedPreferenceController.kt (파일 생성시, 반드시 종류는 Object로!)
  2) SharedPreferenceController.setUserID(this,i_id) 로 메소드 접근
@@ -242,12 +260,12 @@ editor.clear() 는 db의 모든 내용이 지워짐!!!
 
 
 ## 3. Fragment
-**3.1 프래그먼트란?**
+**3.1 Fragment?**
 - 하나의 액티비티가 여러버전의 화면을 가질 수 있음 ex. 모바일환경에서와 태플릿환경에서의 UI
 - 한개의 Activity에서 여러개의 UI를 보기 위함
 - 재사용 가능한 부분 Activity
 
-**3.2 Fragment의 생명주기**
+**3.2 Fragment의 lifecycle**
 
 - 상위 Activity의 생명주기에 영향을 받음
 - Fragment위에 다른 Fragment 올라갈 수 있음
@@ -323,16 +341,16 @@ MainActivity.kt
 
 	}
 
-# 3차 세미나
+# 3rdWeek
 
-## 1. 셀렉터
+## 1. selector
 
-**2-1 셀렉터란?**
+**2-1 selector?**
 
 : 상태에 따라(선택이 되었을 때/해지 되었을 때) 화면에 띄울 리소스를 다르게 설정
 : 좋아요, 체크박스 등 구현시 사용
 
-**2-2 셀렉터 만들기**
+**2-2 selector**
 
 	1) res>drawable>***_selector.xml : selector drawable 만들기
 	2) xml파일에서, view의 src를 selector drawable로 지정
@@ -389,12 +407,12 @@ action_selector.xml
 
         tl_main_indicator.setupWithViewPager(vp_main_slider)
 
-## 2. Glide 라이브러리
-**1-2 Glide란? **
+## 2. Glide library
+**1-2 Glide? **
 
 : URI로 이미지를 로딩할 때 사용되는 라이브러리 중 하나.
 
-**1-2 Glide 라이브러리 이용을 위한 세팅**
+**1-2 setting using Glide library**
 
 	1) gralde에 라이브러리 추가 (https://github.com/bumptech/glide)
 	2) 메니페스트에 어플리케이션 Permission 지정, 
@@ -417,7 +435,7 @@ action_selector.xml
 
 ## 3. RecyclerView
 
-**3-1 RecyclerView란?**
+**3-1 RecyclerView?**
 
 : list형태의 반복되는 레이아웃을 구성하는 방법
 
