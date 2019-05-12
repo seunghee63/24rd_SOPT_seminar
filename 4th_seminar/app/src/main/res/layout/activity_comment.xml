@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+        <include
+                android:id="@+id/toolbar_comments"
+                layout="@layout/toolbar_comments"/>
+
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_comments"
+                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+    <TextView
+            android:id="@+id/tv_btn_write_comments"
+            android:layout_alignParentBottom="true"
+            android:textSize="18dp"
+            android:gravity="center"
+            android:text="댓글쓰기"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:background="@color/colorPrimaryYellow"
+            android:layout_width="match_parent" android:layout_height="60dp"/>
+
+</RelativeLayout>

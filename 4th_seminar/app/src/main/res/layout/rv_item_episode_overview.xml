@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:id="@+id/rl_rv_item_episode_overview_container">
+    <ImageView
+            android:id="@+id/img_rv_item_episode_overview_thumbnail"
+            android:layout_width="100dp" android:layout_height="100dp"/>
+    <RelativeLayout
+            android:paddingStart="20dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/img_rv_item_episode_overview_thumbnail"
+            android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <TextView
+                android:id="@+id/tv_rv_item_episode_title"
+                android:text="n화. 제목"
+                android:textSize="16dp"
+                android:textStyle="bold" android:textColor="#484848"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <LinearLayout
+                android:paddingTop="5dp"
+                android:layout_below="@+id/tv_rv_item_episode_title"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <TextView
+                    android:id="@+id/tv_rv_item_episode_views"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="조회수 13만회" android:textSize="14dp"/>
+            <TextView
+                    android:paddingStart="20dp"
+                    android:id="@+id/tv_rv_item_episode_upload_date"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="19.19.19"/>
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>
