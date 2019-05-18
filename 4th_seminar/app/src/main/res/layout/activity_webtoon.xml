@@ -7,8 +7,8 @@
             android:orientation="vertical"
             android:layout_width="match_parent" android:layout_height="wrap_content">
         <include
-                android:id="@+id/toolbar_product"
-                layout="@layout/toolbar_product"/>
+                android:id="@+id/toolbar_webtoon"
+                layout="@layout/toolbar_webtoon"/>
         <ImageView
                 android:id="@+id/iv_webtoon_act"
                 android:src="@drawable/webtoon_img"
