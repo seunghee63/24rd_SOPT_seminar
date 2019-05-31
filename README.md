@@ -18,7 +18,8 @@
   * [2. Glide library](#2-glide-library)
   * [3. RecyclerView](#3-recyclerview)
   
-  
+- [4thWeek](#4thweek)
+ 
 # 1stWeek
 
 ## 1. Android
@@ -505,3 +506,92 @@ action_selector.xml
 
 **3-3 layoutManager**
 
+## 4.통신
+**4.1 setting **
+
+1. 라이브러리 설치
+
+	    implementation 'com.google.code.gson:gson:2.8.5' //gson
+	    implementation 'com.squareup.retrofit2:retrofit:2.5.0' //retrofit
+	    implementation 'com.squareup.retrofit2:converter-gson:2.5.0' //retrofit2
+
+2. 네트워크 인터페이스 설정
+networt패키지>NetworkService(interface)
+
+		networkSercvice.kt
+		interface NetworkService{
+		}
+
+3. 어플리케이션 클래스 설정
+- Application Class : Android Conponent들 사이에서 공유 가능한 전역 클래스
+- 앱이 실행 될 때 가장 먼저 실행. -> 초기화 할 전역 객체가 있다면 이 곳 에서 하면 됨! ex. NetworkService
+
+		1) Application()을 상속받는 클래스 생성
+		2) AndroidManifest.xml에 등록
+		3) NetworkService 인터페이스 초기화
+
+.	3.1 Network패키지> ApplicationController
+	
+		ApplicationController.kt
+
+		import android.app.Application
+		class ApplicationController: Application(){
+		}
+
+.	3.2 메니페스트에 등록
+<application>의 속성에
+android:name = ".Network.ApplicationController" 등록
+
+.	3.3 NetworkService 인터페이스(전역객체) 초기화
+
+	class ApplicationController : Application(){
+		private val baseURL = "http://hyunjkluz.ml:2424/" //통신하고자 하는 API 서버의 기본주소
+		lateinit val networkService : NetworkService //선언만 먼저!
+		
+		companion object{
+			lateinit var instance : ApplicationController
+		}
+		
+		override fun onCreate(){
+			super.onCreate()
+			instance = this
+			buildNetwork()
+		}
+		
+		//Retrofit 객체 생성
+		fun buildNetwork(){
+			//Retrofit 객체 생성
+			val retrofit:Retrofit = Retrofit.Builder()
+				.baseUrl(baseURL)
+				.addConverterFactory(GsonConveterFactory.create())
+				.build()
+				
+			networkService = retfit.create(NetworkService::class.java) //Retrofit 객체 활성화
+		}
+	}
+
+**4.2 POST Method**
+1.HTTP Response의 BodyData를 담을 data class만들기
+
+		data class PostLoginResponse(
+			val status : Int,	//상태코드
+			val success : Boolean,	
+			val message: String,	
+			val data : String? 	//?:Null값을 가질 수 도 있음
+		)
+		
+2. NetworkInterface 통신을 담당하는 추상 메소드 만들기
+
+		interface NetworkInterface{
+		
+			//@HTTP메소드(API URL)
+			@POST("/api/auth/signin")
+			fun postLoninResponse(
+				@Header("Content-Type") content_type : String, //HTTP Request Header
+				@body() Body:JsonObject	//
+			): Call<PostLoginResponse> //<HTTP Response 포멧>
+		
+		}
+		
+**4.3 GET Method**
+**4.4 Multipart**
