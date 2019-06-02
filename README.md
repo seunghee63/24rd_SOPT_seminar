@@ -506,23 +506,26 @@ action_selector.xml
 
 **3-3 layoutManager**
 
-## 4.통신
-**4.1 setting **
+# 4thWeek
 
-1. 라이브러리 설치
+## 4.setting
+
+**4.1. 라이브러리 설치**
 
 	    implementation 'com.google.code.gson:gson:2.8.5' //gson
 	    implementation 'com.squareup.retrofit2:retrofit:2.5.0' //retrofit
 	    implementation 'com.squareup.retrofit2:converter-gson:2.5.0' //retrofit2
 
-2. 네트워크 인터페이스 설정
+**4.2. 네트워크 인터페이스 설정**
+
 networt패키지>NetworkService(interface)
 
 		networkSercvice.kt
 		interface NetworkService{
 		}
 
-3. 어플리케이션 클래스 설정
+**4.3. 어플리케이션 클래스 설정**
+
 - Application Class : Android Conponent들 사이에서 공유 가능한 전역 클래스
 - 앱이 실행 될 때 가장 먼저 실행. -> 초기화 할 전역 객체가 있다면 이 곳 에서 하면 됨! ex. NetworkService
 
@@ -570,8 +573,9 @@ android:name = ".Network.ApplicationController" 등록
 		}
 	}
 
-**4.2 POST Method**
-1.HTTP Response의 BodyData를 담을 data class만들기
+## 2.POST Method
+
+**2.1 HTTP Response의 BodyData를 담을 data class만들기**
 
 		data class PostLoginResponse(
 			val status : Int,	//상태코드
@@ -579,19 +583,141 @@ android:name = ".Network.ApplicationController" 등록
 			val message: String,	
 			val data : String? 	//?:Null값을 가질 수 도 있음
 		)
+**2.2 NetworkInterface 통신을 담당하는 추상 메소드 만들기**
 		
-2. NetworkInterface 통신을 담당하는 추상 메소드 만들기
-
 		interface NetworkInterface{
 		
 			//@HTTP메소드(API URL)
 			@POST("/api/auth/signin")
 			fun postLoninResponse(
 				@Header("Content-Type") content_type : String, //HTTP Request Header
-				@body() Body:JsonObject	//
+				@body() Body:JsonObject	//보내는 데이터 타입
 			): Call<PostLoginResponse> //<HTTP Response 포멧>
-		
+		}
+**2.3 Login.kt 에서 HTTP Response에 따른 기능 구현**
+
+NetworkInterface 객체 불러오기
+
+		val networkService : NetworkService by lazy{
+			ApplicationController.instance.networkService
 		}
 		
-**4.3 GET Method**
-**4.4 Multipart**
+		override fun onCreate(savedInstanceState : Bundle?){
+		
+		/*생략*/
+		
+			btnLoginSubmit.setOnClickListener{
+				/*생략*/
+				if(isVaild(login_u_id, login_u_pw))
+					postLoginResponse(login_u_id, login_u_pw)
+			}
+		}
+**2.4 postLoginResponse함수 구현**
+		
+		fun postLoginResponse(u_id:String,u_pw:String){
+		
+			var jsonObject = JSONObject()
+			jsonObject.put("id", u_id)
+			jsonObject.put("password", p_pw)
+			//request시 전송 할 데이터를 json객체로 만듦
+			
+			val gsonObject =JsonParser().parse(jsonObject.toString()) as JsonObject //json객체를 gson객체로
+			val postLoginResponse : Call<PostLoginResponse> = networkService.postLoginResponse("application/json", gsonObject)
+			//실제 통신 요청("Header", body)
+			
+			postLoginResponse.enqueue(object : Callback<PostLoginResponse>{
+				
+				//HTTP Response를 받지 못했을 때,
+				override fun onFailure(call : Call<PostLoginResponse>, t:Throwable){
+					Log.e("Login failed", t.toString())
+				}
+			})
+				//HTTP Response를 받았을 때,
+				override fun onResponse(call:Call<PostLoginResponse>, response:Response<PostLoginResponse>){
+				
+				if(response.isSuccessful){
+					if(response.body()!!.status ==201){
+						SharedPreferenceController.setUserToken(applicationContext, response.body!!.data)
+			finish()
+					}
+				}
+			}
+		}
+		
+**2.5 SharedPreference 관리**
+
+		fun setUserToken(ctx:Context, time:String){
+			val preference : SharedPreferences = ctx.getSharedPreference
+			/**/
+		}
+## 3. GET Method
+
+**3.1. NetworkService에 API 처리 함수 작성**
+
+#Query사용시, (Key = Value)
+api/webtoons/main?flag=1
+
+		@GET("/api/webtoons/main")
+		fun getMainProductListResponse(
+			@Header("Content-Type") content_type:String,
+			@Query("flag") flag:Int
+		): Call <GetMainProductListResponse>
+	
+#Path사용시,
+api/webtoons/main/1
+
+		@GET("/api/webtoons/main/{main}")
+		fun getMainProductListResponse(
+			@Header("Content-Type") content_type:String,
+			@Path("flag") flag:Int
+		): Call <GetMainProductListResponse>
+**3.2 HTTP Response의 BodyData를 담을 data class만들기**
+
+		data class GetMainProductListResponse(
+			val status:Int,
+			val success : Boolean,
+			val message : String,
+			val data : ArrayList<ProductOverviewData>
+		)
+		
+**3.3 ProductOverviewData.kt**	
+
+받아온 데이터가 리스트는 형태 일 경우 리스트의 데이터와 같은 내용을 포함하고 있어야 함
+
+		data class ProductOverviewData(
+			var thumnail : String,
+			var idx: Int,
+			var title : String,
+			var likes:Int,
+			var isFinished:Int
+		)
+**3.4 AllProductMainFragment.kt에서 HTTP Response에 따른 기능 구현**
+
+
+		private fun getMainProductResponse(){
+			val getMainProductListResponse = networkService.getMainProductListResponse("application/json",1) //실제 통신 요청
+			getMainProductListResponse.enqueue(object: Callback<GetMainProductListRespnose>{
+				//실패 할 
+				override fun onFailure(call<GetMainProductListResponse>, t:Throwable){
+				Log.e("AllMainProduct List Fail", t.toString())
+				}
+				
+				override fun onResponse(
+					call: Call<GetMainProductListResponse>,
+					response:Response<GetMainProductListResponse>
+				){
+					//성공 할 경우
+					if(response.isSuccessful){
+						if(response.body()!!.status == 200){
+							val tmp:ArrayList<ProductOverview> = respnose.body()!!.data!!
+							productOverviewRecyclerViewAdapter.dataList = tmp //dataList업데이트
+							productOverviewRecyclerViewAdapter.notifyDataSetChanged() //어뎁터에 데이터가 변경 될 사실을 알려주어야 함!
+						}
+					}
+				
+				}
+			})
+		
+		}
+
+## 4 Multipart
