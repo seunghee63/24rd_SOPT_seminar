@@ -1,1 +1,2 @@
-This is origin sample(new_branch_test) file.
+This is origin sample(origin+new_branch_test) file.
+
