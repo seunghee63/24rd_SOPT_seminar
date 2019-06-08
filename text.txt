@@ -1,1 +1,1 @@
-This is origin sample file.
+This is origin sample(origin) file.
